@@ -3,10 +3,10 @@ Getting and Cleaning Data
 
 This repository contains the following files:
 
-README.md, provides an overview of the data set and how it was created
-1. tidy_data.txt, which contains the data set.
-2. CodeBook.md, the code book, which describes the contents of the data set (data, variables and transformations used to generate the data).
-3. run_analysis.R, the R script that was used to create the data set
+1. README.md, provides an overview of the data set and how it was created
+2. tidy_data.txt, which contains the data set.
+3. CodeBook.md, the code book, which describes the contents of the data set (data, variables and transformations used to generate the data).
+4. run_analysis.R, the R script that was used to create the data set
 
 
 Creating the data set
