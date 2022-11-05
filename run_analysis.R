@@ -1,17 +1,30 @@
 library(dplyr) 
 
-# set dataset directory
-setwd("UCI HAR Dataset")
+# download zip file containing data if it hasn't already been downloaded
+zipUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+zipFile <- "UCI HAR Dataset.zip"
 
-# read train data 
-x_train   <- read.table("./train/X_train.txt")
-y_train   <- read.table("./train/Y_train.txt") 
-sub_train <- read.table("./train/subject_train.txt")
+if (!file.exists(zipFile)) {
+  download.file(zipUrl, zipFile, mode = "wb")
+}
 
-# read test data 
-x_test   <- read.table("./test/X_test.txt")
-y_test   <- read.table("./test/Y_test.txt") 
-sub_test <- read.table("./test/subject_test.txt")
+# unzip zip file containing data if data directory doesn't already exist
+dataPath <- "UCI HAR Dataset"
+if (!file.exists(dataPath)) {
+  unzip(zipFile)
+}
+trainingSubjects <- read.table(file.path(dataPath, "train", "subject_train.txt"))
+trainingValues <- read.table(file.path(dataPath, "train", "X_train.txt"))
+trainingActivity <- read.table(file.path(dataPath, "train", "y_train.txt"))
 
-# read features description 
-features <- read.table("./features.txt") 
+# read test data
+testSubjects <- read.table(file.path(dataPath, "test", "subject_test.txt"))
+testValues <- read.table(file.path(dataPath, "test", "X_test.txt"))
+testActivity <- read.table(file.path(dataPath, "test", "y_test.txt"))
+features <- read.table(file.path(dataPath, "features.txt"), as.is = TRUE)
+## note: feature names (in features[, 2]) are not unique
+##       e.g. fBodyAcc-bandsEnergy()-1,8
+
+# read activity labels
+activities <- read.table(file.path(dataPath, "activity_labels.txt"))
+colnames(activities) <- c("activityId", "activityLabel")
