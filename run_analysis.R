@@ -25,6 +25,52 @@ features <- read.table(file.path(dataPath, "features.txt"), as.is = TRUE)
 ## note: feature names (in features[, 2]) are not unique
 ##       e.g. fBodyAcc-bandsEnergy()-1,8
 
+
 # read activity labels
 activities <- read.table(file.path(dataPath, "activity_labels.txt"))
 colnames(activities) <- c("activityId", "activityLabel")
+humanActivity <- rbind(
+  cbind(trainingSubjects, trainingValues, trainingActivity),
+  cbind(testSubjects, testValues, testActivity)
+)
+
+rm(trainingSubjects, trainingValues, trainingActivity, 
+   testSubjects, testValues, testActivity)
+colnames(humanActivity) <- c("subject", features[, 2], "activity")
+
+columnsToKeep <- grepl("subject|activity|mean|std", colnames(humanActivity))
+
+# ... and keep data in these columns only
+humanActivity <- humanActivity[, columnsToKeep]
+
+humanActivity$activity <- factor(humanActivity$activity, 
+                                 levels = activities[, 1], labels = activities[, 2])
+
+humanActivityCols <- colnames(humanActivity)
+
+# remove special characters
+humanActivityCols <- gsub("[\\(\\)-]", "", humanActivityCols)
+
+# expand abbreviations and clean up names
+humanActivityCols <- gsub("^f", "frequencyDomain", humanActivityCols)
+humanActivityCols <- gsub("^t", "timeDomain", humanActivityCols)
+humanActivityCols <- gsub("Acc", "Accelerometer", humanActivityCols)
+humanActivityCols <- gsub("Gyro", "Gyroscope", humanActivityCols)
+humanActivityCols <- gsub("Mag", "Magnitude", humanActivityCols)
+humanActivityCols <- gsub("Freq", "Frequency", humanActivityCols)
+humanActivityCols <- gsub("mean", "Mean", humanActivityCols)
+humanActivityCols <- gsub("std", "StandardDeviation", humanActivityCols)
+
+# correct typo
+humanActivityCols <- gsub("BodyBody", "Body", humanActivityCols)
+
+# use new labels as column names
+colnames(humanActivity) <- humanActivityCols
+
+humanActivityMeans <- humanActivity %>% 
+  group_by(subject, activity) %>%
+  summarise_each(funs(mean))
+
+# output to file "tidy_data.txt"
+write.table(humanActivityMeans, "tidy_data.txt", row.names = FALSE, 
+            quote = FALSE)
