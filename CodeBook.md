@@ -15,13 +15,9 @@ Variables
 
 Each row contains, for a given subject and activity, 79 averaged signal measurements.
 
-Identifiers
-
-subject
 
 Subject identifier, integer, ranges from 1 to 30.
 
-activity
 
 Activity identifier, string with 6 possible values:
 
