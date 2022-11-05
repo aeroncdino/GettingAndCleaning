@@ -1,30 +1,16 @@
----
-title: "README"
-author: "Aeron Chester Dino"
-date: "2022-11-05"
-output: html_document
----
+Getting and Cleaning Data 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-## R Markdown
+This repository contains the following files:
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+README.md, provides an overview of the data set and how it was created
+1. tidy_data.txt, which contains the data set.
+2. CodeBook.md, the code book, which describes the contents of the data set (data, variables and transformations used to generate the data).
+3. run_analysis.R, the R script that was used to create the data set
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
-```
+Creating the data set
 
-## Including Plots
+The R script run_analysis.R can be used to create the data set. It retrieves the source data set and transforms it to produce the final data set.
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Download and unzip source data if it doesn't exist. Read data. Merge the training and the test sets to create one data set. Extract only the measurements on the mean and standard deviation for each measurement. Use descriptive activity names to name the activities in the data set. Appropriately label the data set with descriptive variable names. Create a second, independent tidy set with the average of each variable for each activity and each subject. Write the data set to the tidy_data.txt file.
